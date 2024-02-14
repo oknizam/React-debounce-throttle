@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# throtteling
+Let's assume that we have an event listener in our app to track the movement of the user mouse, then send data to a backend server to do some operations based on the location of the mouse.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+const handleMouseMove = (e) => {
+  //everytime the mouse moved this function will be invoked
+  console.log('api call to do some operations...')
+}
+//event listener to track the movement of the mouse
+window.addEventListener('mousemove', handleMouseMove)
+If we stick with this solution, we will end up with a down backend server because it will receive a hundred of requests in short duration.
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+1600 API calls in few seconds is very very bad 📛📛📛. To fix this issue, we need to limit the number of API calls, and this kind of problems can be solved using a throttle function.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+A throttle function is a mechanism to limit the number of calls of another function in a specific interval, any additional calls within the specified time interval will be ignored.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+function throttle(fn, delay) {
+  let run = false
+  return function (...args) {
+    if (!run) {
+      fn(...args)
+      run = true
+      setTimeout(() => (run = false), delay)
+    }
+  }
+}
+The throttle function accepts two arguments: fn, which is a function to throttle, and delay in ms of the throttling interval and returns a throttled function.
 
-### `npm run build`
+Implement throttle function into our example
+const handleMouseMove = (e) => {
+  //everytime the mouse moved this function will be invoked
+  console.log('api call to do some operations...')
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+//event listener to track the movement of the mouse
+window.addEventListener('mousemove', throttle(handleMouseMove, 1000))
+//1000ms => 1 second
