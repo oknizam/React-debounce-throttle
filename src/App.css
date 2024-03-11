@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+
+.list-container{
+  display: block;
+  align-items: center;
+
+}
+.list-item{
+  margin: 5px;
+}
+
+.container-input{
+  display: block;
+}
+
+.btn{
+  margin-left: 5px;
+}
+.list-container{
+  margin: 5px;
+}

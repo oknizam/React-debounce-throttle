@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useEffect } from 'react';
+import Todo from './components/Todo';
 
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
   }
 
   useEffect(()=>{
-    window.addEventListener("mousemove", throttling(handleMouseMove, 5000));
+    // window.addEventListener("mousemove", throttling(handleMouseMove, 5000));
   },[])
 
 
@@ -45,6 +46,7 @@ function App() {
     <div className="App">
       <h3>Debouncing</h3>
       <input type='text' onChange={debounce(handleChange, 500)} />
+      <Todo/>
     </div>
   );
 }
